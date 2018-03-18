@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.printer.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.printer.pojo.Order" >
+    <id column="orderid" property="orderid" jdbcType="VARCHAR" />
+    <result column="tele" property="tele" jdbcType="VARCHAR" />
+    <result column="other" property="other" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="pay" property="pay" jdbcType="INTEGER" />
+    <result column="done" property="done" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    orderid, tele, other, time, pay, done
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.printer.pojo.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from `order`
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from `order`
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from `order`
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.printer.pojo.OrderExample" >
+    delete from `order`
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.printer.pojo.Order" >
+    insert into `order` (orderid, tele, other,time, pay, done) values (#{orderid,jdbcType=VARCHAR}, #{tele,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR},  #{time,jdbcType=TIMESTAMP}, #{pay,jdbcType=INTEGER}, #{done,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.printer.pojo.Order" >
+    insert into `order`
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        orderid,
+      </if>
+      <if test="tele != null" >
+        tele,
+      </if>
+      <if test="other != null" >
+        other,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="pay != null" >
+        pay,
+      </if>
+      <if test="done != null" >
+        done,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="tele != null" >
+        #{tele,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pay != null" >
+        #{pay,jdbcType=INTEGER},
+      </if>
+      <if test="done != null" >
+        #{done,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.printer.pojo.OrderExample" resultType="java.lang.Integer" >
+    select count(*) from `order`
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update `order`
+    <set >
+      <if test="record.orderid != null" >
+        orderid = #{record.orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tele != null" >
+        tele = #{record.tele,jdbcType=VARCHAR},
+      </if>
+      <if test="record.other != null" >
+        other = #{record.other,jdbcType=VARCHAR},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pay != null" >
+        pay = #{record.pay,jdbcType=INTEGER},
+      </if>
+      <if test="record.done != null" >
+        done = #{record.done,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update `order`
+    set orderid = #{record.orderid,jdbcType=VARCHAR},
+      tele = #{record.tele,jdbcType=VARCHAR},
+      other = #{record.other,jdbcType=VARCHAR},
+      time = #{record.time,jdbcType=TIMESTAMP},
+      pay = #{record.pay,jdbcType=INTEGER},
+      done = #{record.done,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.printer.pojo.Order" >
+    update `order`
+    <set >
+      <if test="tele != null" >
+        tele = #{tele,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pay != null" >
+        pay = #{pay,jdbcType=INTEGER},
+      </if>
+      <if test="done != null" >
+        done = #{done,jdbcType=INTEGER},
+      </if>
+    </set>
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.printer.pojo.Order" >
+    update `order`
+    set tele = #{tele,jdbcType=VARCHAR},
+      other = #{other,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      pay = #{pay,jdbcType=INTEGER},
+      done = #{done,jdbcType=INTEGER}
+    where orderid = #{orderid,jdbcType=VARCHAR}
+  </update>
+</mapper>
